@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hi, I am Zoltan Temesvari</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Quattrocento&family=Playfair&family=Quicksand+Display&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            body {
+                font-family: "Quattrocento Display", serif;
+                background: #3f628c;
+                background: linear-gradient(
+                    90deg,
+                    rgba(63, 98, 140, 1) 0%,
+                    rgba(53, 93, 128, 1) 45%,
+                    rgba(21, 91, 96, 1) 80%
+                );
+            }
+            ul {
+                list-style-type: none;
+                padding-left: 0;
+                font-family: "Quattrocento Display", serif;
+            }
+            .fade-mask {
+                mask-image:
+                    radial-gradient(
+                        circle at top left,
+                        transparent 0%,
+                        rgba(0, 0, 0, 0.9) 30%,
+                        rgba(0, 0, 0, 1) 60%
+                    ),
+                    radial-gradient(
+                        circle at bottom right,
+                        rgba(0, 0, 0, 1) 60%,
+                        rgba(0, 0, 0, 0.9) 80%,
+                        transparent 100%
+                    );
+                -webkit-mask-image:
+                    radial-gradient(
+                        circle at top left,
+                        transparent 0%,
+                        rgba(0, 0, 0, 0.9) 30%,
+                        rgba(0, 0, 0, 1) 60%
+                    ),
+                    radial-gradient(
+                        circle at bottom right,
+                        rgba(0, 0, 0, 1) 60%,
+                        rgba(0, 0, 0, 0.9) 80%,
+                        transparent 100%
+                    );
+                mask-composite: intersect;
+                -webkit-mask-composite: destination-in;
+                border-radius: 1rem;
+            }
+            .section-text {
+                transition:
+                    background-color 0.5s ease,
+                    color 0.5s ease;
+                display: inline-block;
+                padding: 0.25rem 0.5rem;
+            }
+            .sublink {
+                transition:
+                    background-color 0.5s ease,
+                    color 0.5s ease;
+                display: inline-block;
+                padding: 0.25rem 0.5rem;
+            }
+            @media (max-width: 900px) {
+                .section-text,
+                .sublink,
+                .intro {
+                    color: #e0d7f3;
+                }
+            }
+            @media (max-width: 640px) {
+                .section-text,
+                .sublink {
+                    background-color: rgba(31, 41, 55, 0.9);
+                    color: #d1c4e9;
+                }
+            }
+            @media (max-width: 480px) {
+                .section-text,
+                .sublink {
+                    background-color: rgba(31, 41, 55, 1);
+                    color: #ffffff;
+                }
+            }
+        </style>
+    </head>
+    <body class="min-h-screen text-white overflow-x-hidden">
+        <div
+            class="flex flex-col lg:flex-row items-center justify-center min-h-screen gap-6 p-4"
+        >
+            <!-- Logo
+  <div class="absolute top-4 left-4 w-32 sm:w-40 md:w-48 lg:w-56 xl:w-64 z-50">
+    <img src="assets/logo.png" alt="Logo" class="w-full h-auto" />
+  </div> -->
+
+            <!-- Main Text -->
+            <div class="max-w-xl w-full space-y-8 text-left intro">
+                <h1
+                    class="text-5xl md:text-6xl font-bold tracking-wide text-violet-200"
+                    style="font-family: &quot;Playfair Display&quot;, serif"
+                >
+                    Zoltán Temesvári
+                </h1>
+                <p
+                    class="text-lg font-semibold tracking-wide text-violet-200"
+                    style="font-family: &quot;Playfair Display&quot;, serif"
+                >
+                    Computer Technologist | Classical Musician | Potter |
+                    (Closet) Philosopher
+                </p>
+                <p
+                    class="text-lg font-normal tracking-wide text-violet-200"
+                    style="font-family: &quot;Playfair Display&quot;, serif"
+                >
+                    Jack of Many Trades, Master of (Probably) None
+                </p>
+            </div>
+
+            <!-- Decorative Photo -->
+            <div
+                class="w-[20rem] h-[20rem] md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem]"
+            >
+                <img
+                    src="assets/me.png"
+                    alt="Decorative Photo"
+                    class="w-full h-full object-cover fade-mask shadow-2xl rounded-xl"
+                />
+            </div>
+
+            <!-- Main Content -->
+            <div class="max-w-xl w-full space-y-8 text-left">
+                 <div>
+                    <h1
+                        onclick="toggleSection('Musick')"
+                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
+                    >
+                        Coming soon
+                    </h1>
+                    <div id="philosophy" class="mt-4 hidden space-y-2">
+                        <ul class="list-disc list-inside text-lg text-gray-200">
+                            <li>
+                                Stay tuned.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- future menu
+                <div>
+                    <h1
+                        onclick="toggleSection('philosophy')"
+                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text section-mobile-head"
+                    >
+                        Philosophy
+                    </h1>
+                    <div id="philosophy" class="mt-4 hidden space-y-2">
+                        <ul class="list-disc list-inside text-lg text-gray-200">
+                            <li>
+                                I am a Hungarian literary translator working to
+                                bring Shakespeare’s plays closer to today’s
+                                readers and theatergoers. My approach blends
+                                fresh, contemporary Hungarian in dialogues with
+                                newly crafted rhymes for soliloquies—ensuring
+                                clarity, emotional resonance, and poetic flair
+                                for a younger audience. While Hungary has a
+                                proud tradition of Shakespeare translation—from
+                                János Arany to modern classics—these often use
+                                historic language that can feel distant and
+                                obscure to newer generations. My goal is to make
+                                these timeless works accessible, vivid, and
+                                moving for the 21st century. My translation of
+                                Macbeth is available at macbeth.hu, and I’m
+                                currently working on Hamlet.
+                            </li>
+                            <li>
+                                <a
+                                    href="https://example.com/philosophy2"
+                                    class="block hover:underline sublink"
+                                    >Subsite 2</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h1
+                        onclick="toggleSection('Musick')"
+                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
+                    >
+                        Art
+                    </h1>
+                    <div id="musick" class="mt-4 hidden space-y-2">
+                        <a
+                            href="https://example.com/husbandry1"
+                            class="block text-lg hover:underline sublink"
+                            >Subsite 1</a
+                        >
+                        <a
+                            href="https://example.com/husbandry2"
+                            class="block text-lg hover:underline sublink"
+                            >Subsite 2</a
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <h1
+                        onclick="toggleSection('merriment')"
+                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
+                    >
+                        Craft
+                    </h1>
+                    <div id="merriment" class="mt-4 hidden space-y-2">
+                        <a
+                            href="https://example.com/merriment1"
+                            class="block text-lg hover:underline sublink"
+                            >Subsite 1</a
+                        >
+                        <a
+                            href="https://example.com/merriment2"
+                            class="block text-lg hover:underline sublink"
+                            >Subsite 2</a
+                        >
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+
+        <script>
+            function toggleSection(sectionId) {
+                const sections = ["philosophy", "musick", "merriment"];
+                sections.forEach((id) => {
+                    const el = document.getElementById(id);
+                    if (id === sectionId) {
+                        el.classList.toggle("hidden");
+                    } else {
+                        el.classList.add("hidden");
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

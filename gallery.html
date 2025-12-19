@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gallery</title>
+<style>
+  :root{
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-base: clamp(18px, 2vw, 20px);
+    --line-height: 1.7;
+    --max-width: 1100px;
+    --accent: hsl(200, 50%, 55%); /* overridden dynamically */
+    /* ✨ Grid knobs */
+    --gap: 14px;
+    --tile-min: 170px;
+    --ratio: 1 / 1; /* mobile default: squares */
+  }
+  @media (min-width: 900px){
+    :root{ --gap: 16px; --tile-min: 220px; --ratio: 4 / 3; }
+  }
+
+  body{
+    margin:0; color:#111; background:#fff;
+    font-family: var(--font-body); font-size: var(--font-size-base); line-height: var(--line-height);
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+
+  header{ border-bottom:1px solid #e5e7eb; padding: 1rem 1.25rem; }
+  header a{ color: var(--accent); text-decoration: none; font-weight: 500; font-size: .95em; }
+  header a:hover{ text-decoration: underline; text-underline-offset: 2px; }
+
+  main{ flex:1; max-width: var(--max-width); width:100%; margin:0 auto; padding: 2rem 1.25rem 3rem; }
+  h1{ margin:0 0 .25rem 0; font-size: clamp(2rem, 5vw, 3rem); font-weight:600; letter-spacing:.02em; color: var(--accent); }
+  .intro{ margin: 0 0 1.5rem 0; color:#444; }
+
+  /* Lead image */
+  .lead{
+    display:block; width:100%; max-height: 62vh; object-fit: cover;
+    border-radius: 10px; margin: 1.5rem 0 2rem; box-shadow: 0 8px 30px rgba(0,0,0,.08); cursor: zoom-in;
+  }
+
+  /* Thumb grid */
+  .grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile-min), 1fr));
+    gap: var(--gap);
+  }
+  .thumb{
+    position:relative; overflow:hidden; border-radius:10px; aspect-ratio: var(--ratio);
+    background:#f3f4f6; box-shadow: 0 4px 18px rgba(0,0,0,.05); cursor: zoom-in;
+  }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform .35s ease; }
+  .thumb:hover img{ transform: scale(1.04); }
+
+  /* Lightbox */
+  .lightbox{
+    position: fixed; inset:0; display:none; place-items:center;
+    background: rgba(10,12,16,.25); backdrop-filter: blur(6px); z-index: 50;
+  }
+  .lightbox.show{ display:grid; }
+
+  .lb-stage{
+    position: relative; width: min(92vw, 1200px); max-height: 88vh;
+    border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 20px 80px rgba(0,0,0,.35);
+    /* Robust animation targets */
+    transition: clip-path .6s cubic-bezier(.2,.9,.2,1), opacity .2s ease, transform .25s ease;
+    opacity: 1; transform: none;
+    /* Start fully revealed by default; JS will set the initial small circle and animate out */
+    clip-path: circle(150vmax at 50% 50%);
+  }
+  /* Fallback if clip-path unsupported: simple fade/scale */
+  .no-iris .lb-stage{ clip-path: none !important; }
+
+  .lb-img{ display:block; width:100%; height:auto; max-height: 88vh; object-fit: contain; user-select:none; -webkit-user-drag: none; }
+
+  .lb-ui{ position:absolute; inset:0; pointer-events:none; }
+  .btn{
+    pointer-events:auto; position:absolute; top:50%; transform: translateY(-50%);
+    padding:.55rem .7rem; border-radius: 10px; background: rgba(255,255,255,.75);
+    border: 1px solid rgba(0,0,0,.08); color:#111; cursor:pointer; font-weight:600; user-select:none;
+  }
+  .btn:hover{ background: rgba(255,255,255,.95); }
+  .btn:active{ transform: translateY(-50%) scale(.98); }
+  .btn-prev{ left: 10px; }
+  .btn-next{ right: 10px; }
+  .btn-close{ top:12px; right:12px; transform:none; background: var(--accent); color:#fff; border:none; font-weight:600; }
+
+  figcaption{
+    position:absolute; left:12px; bottom:10px; padding:.35rem .55rem;
+    background: rgba(255,255,255,.8); border-radius:8px; font-size:.9em; color:#333; display:none;
+  }
+  .show figcaption{ display:block; }
+
+  @media (prefers-reduced-motion: reduce){
+    .lb-stage{ transition:none !important; clip-path: none !important; opacity:1 !important; transform:none !important; }
+  }
+
+  footer{ border-top:1px solid #e5e7eb; padding:1rem 1.25rem; text-align:center; font-size:.85em; color:#777; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html">← Back to Clock</a>
+</header>
+
+<main>
+  <h1>Gallery</h1>
+  <p class="intro">A quiet selection from the studio. Click any image to open it with a little clock-iris flourish.</p>
+
+  <!-- Lead image (filled from JSON first item) -->
+  <img class="lead" id="lead" alt="Lead image (loading…)" />
+
+  <!-- Grid of thumbnails -->
+  <div class="grid" id="grid" aria-live="polite"></div>
+</main>
+
+<footer>© 2025 Your Name</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+  <figure class="lb-stage" id="stage">
+    <img id="lbImg" class="lb-img" alt="">
+    <figcaption id="lbCaption"></figcaption>
+    <div class="lb-ui">
+      <button class="btn btn-prev" id="btnPrev" aria-label="Previous (←)">←</button>
+      <button class="btn btn-next" id="btnNext" aria-label="Next (→)">→</button>
+      <button class="btn btn-close" id="btnClose" aria-label="Close (Esc)">Close</button>
+    </div>
+  </figure>
+</div>
+
+<script>
+/* ===== Accent color sync (same scheme as clock page) ===== */
+const MENU = ['epiphany','anxiety','duty','guilt','indifference','awe','fatigue','nostalgia','ecstasy','fear','panic','remorse'];
+(function syncAccent(){
+  const slug = location.pathname.split('/').pop().replace(/\.[^/.]+$/, '').toLowerCase();
+  const idx = MENU.indexOf(slug);
+  if(idx >= 0){
+    const hue = (idx * 360 / MENU.length);
+    document.documentElement.style.setProperty('--accent', `hsl(${hue}, 50%, 55%)`);
+  }
+})();
+
+/* ===== Feature detection for iris fallback ===== */
+(function checkClipPath(){
+  const ok = CSS && CSS.supports && CSS.supports('clip-path', 'circle(10px at 0 0)');
+  if(!ok){ document.getElementById('lightbox').classList.add('no-iris'); }
+})();
+
+/* ===== Load images from pictures.json ===== */
+const grid = document.getElementById('grid');
+const lead = document.getElementById('lead');
+const lightbox = document.getElementById('lightbox');
+const stage = document.getElementById('stage');
+const lbImg = document.getElementById('lbImg');
+const lbCaption = document.getElementById('lbCaption');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnClose = document.getElementById('btnClose');
+
+btnClose.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  closeLb();
+});
+
+
+let pics = [];
+let current = 0;
+
+async function loadPictures(){
+  try{
+    const res = await fetch('pictures.json', {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    pics = await res.json();
+    if(!Array.isArray(pics) || !pics.length) throw new Error('Empty or invalid pictures.json');
+
+    // Lead image = first item’s large src
+    lead.src = pics[0].src;
+    lead.alt = pics[0].alt || 'Lead image';
+    lead.addEventListener('click', (e)=> openAt(0, e));
+
+    // Thumbs
+    const frag = document.createDocumentFragment();
+    pics.forEach((p, i) => {
+      const a = document.createElement('a');
+      a.href = p.src;
+      a.className = 'thumb';
+      a.dataset.index = i;
+      a.innerHTML = `<img src="${p.thumb}" alt="${p.alt ? p.alt : 'Image'}">`;
+      a.addEventListener('click', (ev)=>{
+        ev.preventDefault();
+        openAt(i, ev);
+      });
+      frag.appendChild(a);
+    });
+    grid.appendChild(frag);
+  }catch(err){
+    grid.innerHTML = `<p style="color:#b91c1c">Couldn’t load <code>pictures.json</code> (${err.message}).</p>`;
+  }
+}
+
+/* ===== Robust iris open/close (inline clip-path) ===== */
+function openAt(i, ev){
+  current = i;
+  const p = pics[i];
+  lbCaption.textContent = p.alt || '';
+
+  // Show overlay first so we can measure
+  lightbox.classList.add('show');
+
+  // Set image and animate once it paints
+  lbImg.onload = () => {
+    // position from click point -> coords relative to stage
+    const r = stage.getBoundingClientRect();
+    const vx = (ev && ev.clientX) ? ev.clientX : innerWidth / 2;
+    const vy = (ev && ev.clientY) ? ev.clientY : innerHeight / 2;
+    const x = (vx - r.left), y = (vy - r.top);
+
+    // Start from a tiny circle at the click point
+    stage.style.clipPath = `circle(0px at ${x}px ${y}px)`;
+    stage.style.opacity = '1';
+    stage.style.transform = 'none';
+
+    // Next frame: expand to reveal
+    requestAnimationFrame(() => {
+      stage.style.clipPath = `circle(150vmax at ${x}px ${y}px)`;
+    });
+
+    document.addEventListener('keydown', onKey);
+  };
+  lbImg.onerror = () => {
+    // Fallback: no iris — simple fade/scale
+    stage.style.clipPath = '';
+    stage.style.opacity = '1';
+    stage.style.transform = 'none';
+    document.addEventListener('keydown', onKey);
+  };
+
+  lbImg.src = p.src;
+  lbImg.alt = p.alt || '';
+}
+
+function closeLb(){
+  // shrink to stage center (iris)
+  const r = stage.getBoundingClientRect();
+  const cx = r.width/2, cy = r.height/2;
+
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    lightbox.classList.remove('show');
+    stage.style.clipPath = '';
+    lbImg.removeAttribute('src');
+    document.removeEventListener('keydown', onKey);
+  };
+
+  // If iris supported & motion allowed: animate then finish
+  const canIris = !lightbox.classList.contains('no-iris')
+                  && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canIris){
+    // set a safety fallback in case transitionend is missed
+    const t = setTimeout(finish, 700);
+    const onEnd = () => { clearTimeout(t); finish(); };
+    stage.addEventListener('transitionend', onEnd, { once:true });
+
+    // trigger animation
+    stage.style.clipPath = `circle(0px at ${cx}px ${cy}px)`;
+  } else {
+    // no animation: just finish
+    finish();
+  }
+}
+
+
+function prev(){ if(!pics.length) return; openAt((current - 1 + pics.length) % pics.length, {clientX: innerWidth/2, clientY: innerHeight/2}); }
+function next(){ if(!pics.length) return; openAt((current + 1) % pics.length, {clientX: innerWidth/2, clientY: innerHeight/2}); }
+
+function onKey(e){
+  if(e.key === 'Escape') closeLb();
+  else if(e.key === 'ArrowLeft') prev();
+  else if(e.key === 'ArrowRight') next();
+}
+
+lightbox.addEventListener('click', (e)=>{
+  if(!e.target.closest('.lb-stage')) closeLb();
+});
+btnClose.addEventListener('click', closeLb);
+btnPrev.addEventListener('click', prev);
+btnNext.addEventListener('click', next);
+
+/* Start */
+loadPictures();
+</script>
+</body>
+</html>

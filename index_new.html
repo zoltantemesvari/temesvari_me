@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hi, I'm Zoltan Temesvari</title>
+<style>
+  :root{
+    --size: min(75vmin, 640px); /* reduced for header visibility */
+    --bezel: calc(var(--size) * 0.04);
+    --glass-inset: calc(var(--size) * 0.04);
+    --shadow: 26px;
+    --label-radius: calc(var(--size) * 0.38);
+    --sec-len: calc(var(--size) * 0.44);
+    --hr-len:  calc(var(--size) * 0.28);
+    --center-dot: calc(var(--size) * 0.06);
+    --accent: #222;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(1200px 800px at 20% 10%, #f7fafc 20%, #eef2f6 60%, #e6ebf1 100%)
+      fixed;
+    font: 400 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    color:#111;
+  }
+
+  .header{
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: clamp(14px, calc(var(--size)*.025), 20px);
+    letter-spacing: .12em;
+  }
+
+  .bold{
+    font-weight: 600;
+  }
+
+  .wrap{
+    width:var(--size);
+    height:var(--size);
+    position:relative;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,.25));
+  }
+
+  /* Bezel */
+  .clock{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+      radial-gradient(130% 110% at 30% 20%, #cfd6dd 0%, #9ca6b2 45%, #b8c1cb 55%, #e7edf3 70%);
+    padding: var(--bezel);
+  }
+
+  /* Glass bowl with face behind it */
+  .glass{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    background:
+      radial-gradient(140% 100% at 70% 10%, rgba(255,255,255,.85), rgba(255,255,255,.65) 40%, rgba(230,238,250,.6) 60%, rgba(210,220,235,.6)),
+      radial-gradient(55% 55% at 50% 55%, #f7fbff 0%, #eaf2fb 50%, #dae6f7 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.6),
+      inset 0 0 0 2px rgba(255,255,255,.25),
+      inset 0 0 50px rgba(0,0,0,.10);
+  }
+
+  /* Face image layer (crossfades in) */
+  .face-image{
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition: opacity .45s ease;
+  }
+  .face-image.show{ opacity:1; }
+
+  /* Subtle glare */
+  .glare{
+    position:absolute; inset:0;
+    border-radius:50%;
+    background:
+      radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,.50), rgba(255,255,255,0) 40%),
+      radial-gradient(100% 100% at 80% 80%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%);
+    pointer-events:none;
+    mix-blend-mode:screen;
+  }
+
+  /* Labels as menu points */
+  .labels{
+    position:absolute; inset:0;
+    z-index: 3; pointer-events: auto;
+  }
+  .label{
+    position:absolute;
+    left:50%; top:50%;
+    translate:-50% -50%;
+    transform:
+      rotate(var(--angle))
+      translate(var(--label-radius))
+      rotate(calc(-1 * var(--angle)));
+    font-size: clamp(12px, calc(var(--size)*.022), 22px);
+    letter-spacing:.4px;
+    color:#1a1a1a;
+    text-decoration:none;
+    padding:.25rem .4rem;
+    border-radius:8px;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    user-select:none;
+    outline: none;
+  }
+  .label:focus-visible, .label:hover{
+    background: rgba(255,255,255,.75);
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    transform:
+      rotate(var(--angle))
+      translate(calc(var(--label-radius) + 6px))
+      rotate(calc(-1 * var(--angle)));
+  }
+
+  .label::after{
+    content:"";
+    position:absolute;
+    left:50%; top:100%;
+    translate:-50% 4px;
+    border: 6px solid transparent;
+    border-top-color: rgba(0,0,0,.18);
+    opacity:.55;
+  }
+
+  /* Hands */
+  .hands{ position:absolute; inset:0; pointer-events: none; }
+  .hand{
+    position:absolute; left:50%; top:50%;
+    transform-origin: center calc(100% - 8px);
+    translate:-50% -100%;
+    transition: transform .9s cubic-bezier(.25,.9,.3,1.2);
+    will-change: transform;
+    pointer-events: none;
+  }
+  .hand::before{
+    content:"";
+    display:block;
+    width: 8px;
+    height: var(--len);
+    border-radius: 6px;
+    background: linear-gradient(#111, #222);
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
+  }
+  .hand.hour{ --len: var(--hr-len); }
+  .hand.second{
+    --len: var(--sec-len);
+    transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  }
+  .cap{
+    position:absolute; left:50%; top:50%;
+    width:var(--center-dot); height:var(--center-dot);
+    translate:-50% -50%;
+    border-radius:50%;
+    background: radial-gradient(60% 60% at 40% 40%, #000, #222 60%, #333 80%);
+    box-shadow: inset 0 0 6px rgba(255,255,255,.25), 0 2px 8px rgba(0,0,0,.45);
+    z-index: 5;
+    pointer-events:none;
+  }
+
+  /* Hide minute hand */
+  .hand.minute { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header" id="tagline"><div class="bold">ZOLTAN TEMESVARI</div>ENGINEER, POTTER, CLASSICAL MUSICIAN, PHILOSOPHER</div>
+
+<div class="wrap" aria-label="Emotion menu clock">
+  <div class="clock" role="group">
+    <div class="glass">
+      <div class="face-image" id="faceImage" aria-hidden="true"></div>
+      <div class="labels" id="labels"></div>
+      <div class="hands">
+        <div class="hand hour"   id="hourHand"></div>
+        <div class="hand second" id="secHand"></div>
+        <div class="cap" aria-hidden="true"></div>
+      </div>
+      <div class="glare" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MENU = [
+  {label:'epiphany',     href:'/epiphany.html'},
+  {label:'anxiety',      href:'#anxiety'},
+  {label:'duty',         href:'#duty'},
+  {label:'guilt',        href:'#guilt'},
+  {label:'indifference', href:'#indifference'},
+  {label:'awe',          href:'#awe'},
+  {label:'fatigue',      href:'#fatigue'},
+  {label:'nostalgia',    href:'#nostalgia'},
+  {label:'ecstasy',      href:'#ecstasy'},
+  {label:'fear',         href:'#fear'},
+  {label:'panic',        href:'#panic'},
+  {label:'remorse',      href:'#remorse'},
+];
+
+function svgData(label, hue){
+  const svg = `
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'>
+    <defs>
+      <radialGradient id='g' cx='60%' cy='35%'>
+        <stop offset='0%' stop-color='hsla(${hue},85%,98%,1)'/>
+        <stop offset='50%' stop-color='hsla(${hue},85%,92%,1)'/>
+        <stop offset='100%' stop-color='hsla(${hue},70%,84%,1)'/>
+      </radialGradient>
+    </defs>
+    <rect width='100%' height='100%' fill='url(#g)'/>
+    <text x='50%' y='54%' text-anchor='middle' font-size='120' font-family='system-ui' fill='hsla(${hue},30%,20%,.8)'>${label}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+MENU.forEach((m,i)=> m.image = svgData(m.label, (i*360/MENU.length)|0));
+
+const labelsEl = document.getElementById('labels');
+const faceImage = document.getElementById('faceImage');
+const hourHand = document.getElementById('hourHand');
+const secHand  = document.getElementById('secHand');
+
+let currentAngle = 0;
+
+function placeLabels(){
+  const N = MENU.length;
+  MENU.forEach((item, idx) => {
+    const angle = -90 + (360 * idx / N);
+    const a = document.createElement('a');
+    a.className = 'label';
+    a.href = item.href;
+    a.textContent = item.label;
+    a.style.setProperty('--angle', angle + 'deg');
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      spinTo(angle, item);
+    });
+    a.tabIndex = 0;
+    a.addEventListener('keydown', (ev)=>{
+      if(ev.key === 'Enter' || ev.key === ' '){
+        ev.preventDefault();
+        a.click();
+      }
+    });
+    labelsEl.appendChild(a);
+  });
+}
+
+function normalize(deg){
+  deg = ((deg % 360) + 360) % 360;
+  return deg > 180 ? deg - 360 : deg;
+}
+
+function spinTo(targetAngle, item){
+  const delta = normalize(targetAngle - currentAngle);
+  currentAngle += delta;
+  const rotateDeg = currentAngle + 90;
+  hourHand.style.transform = `rotate(${rotateDeg}deg)`;
+
+  faceImage.style.backgroundImage = `url("${item.image}")`;
+  faceImage.classList.add('show');
+  clearTimeout(spinTo._t);
+  spinTo._t = setTimeout(()=>{
+    faceImage.classList.remove('show');
+    window.location.href = item.href;
+  }, 1600);
+}
+
+placeLabels();
+
+let idle = 0;
+setInterval(()=>{
+  idle = (idle + 6) % 360;
+  secHand.style.transform = `rotate(${idle}deg)`;
+}, 1000);
+</script>
+</body>
+</html>

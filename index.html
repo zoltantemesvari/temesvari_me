@@ -1,253 +1,344 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Hi, I am Zoltan Temesvari</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Quattrocento&family=Playfair&family=Quicksand+Display&display=swap"
-            rel="stylesheet"
-        />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            body {
-                font-family: "Quattrocento Display", serif;
-                background: #3f628c;
-                background: linear-gradient(
-                    90deg,
-                    rgba(63, 98, 140, 1) 0%,
-                    rgba(53, 93, 128, 1) 45%,
-                    rgba(21, 91, 96, 1) 80%
-                );
-            }
-            ul {
-                list-style-type: none;
-                padding-left: 0;
-                font-family: "Quattrocento Display", serif;
-            }
-            .fade-mask {
-                mask-image:
-                    radial-gradient(
-                        circle at top left,
-                        transparent 0%,
-                        rgba(0, 0, 0, 0.9) 30%,
-                        rgba(0, 0, 0, 1) 60%
-                    ),
-                    radial-gradient(
-                        circle at bottom right,
-                        rgba(0, 0, 0, 1) 60%,
-                        rgba(0, 0, 0, 0.9) 80%,
-                        transparent 100%
-                    );
-                -webkit-mask-image:
-                    radial-gradient(
-                        circle at top left,
-                        transparent 0%,
-                        rgba(0, 0, 0, 0.9) 30%,
-                        rgba(0, 0, 0, 1) 60%
-                    ),
-                    radial-gradient(
-                        circle at bottom right,
-                        rgba(0, 0, 0, 1) 60%,
-                        rgba(0, 0, 0, 0.9) 80%,
-                        transparent 100%
-                    );
-                mask-composite: intersect;
-                -webkit-mask-composite: destination-in;
-                border-radius: 1rem;
-            }
-            .section-text {
-                transition:
-                    background-color 0.5s ease,
-                    color 0.5s ease;
-                display: inline-block;
-                padding: 0.25rem 0.5rem;
-            }
-            .sublink {
-                transition:
-                    background-color 0.5s ease,
-                    color 0.5s ease;
-                display: inline-block;
-                padding: 0.25rem 0.5rem;
-            }
-            @media (max-width: 900px) {
-                .section-text,
-                .sublink,
-                .intro {
-                    color: #e0d7f3;
-                }
-            }
-            @media (max-width: 640px) {
-                .section-text,
-                .sublink {
-                    background-color: rgba(31, 41, 55, 0.9);
-                    color: #d1c4e9;
-                }
-            }
-            @media (max-width: 480px) {
-                .section-text,
-                .sublink {
-                    background-color: rgba(31, 41, 55, 1);
-                    color: #ffffff;
-                }
-            }
-        </style>
-    </head>
-    <body class="min-h-screen text-white overflow-x-hidden">
-        <div
-            class="flex flex-col lg:flex-row items-center justify-center min-h-screen gap-6 p-4"
-        >
-            <!-- Logo
-  <div class="absolute top-4 left-4 w-32 sm:w-40 md:w-48 lg:w-56 xl:w-64 z-50">
-    <img src="assets/logo.png" alt="Logo" class="w-full h-auto" />
-  </div> -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zoltán Temesvári</title>
+<meta name="description" content="Zoltán Temesvári — computer technologist, classical musician, potter, (closet) philosopher. Jack of many trades, master of (probably) none." />
+<meta property="og:title" content="Zoltán Temesvári" />
+<meta property="og:description" content="Jack of many trades, master of (probably) none." />
+<meta property="og:image" content="/assets/me-640.jpg" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f5a66'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-style='italic' fill='%23f3eee4'%3EZ%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f3eee4;
+    --paper-2:#ebe4d6;
+    --ink:#1d1b18;
+    --muted:#6f675b;
+    --rule:#d6cdbb;
+    --accent:#b04e2a;      /* terracotta */
+    --teal:#1f5a66;        /* from the portrait */
+    --serif:"Fraunces", "Iowan Old Style", Georgia, serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --gutter:clamp(1.25rem, 5vw, 4rem);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#161412;
+      --paper-2:#1f1c19;
+      --ink:#ede6d8;
+      --muted:#9c9384;
+      --rule:#35302a;
+      --accent:#e2835a;
+      --teal:#6fb3bf;
+    }
+  }
 
-            <!-- Main Text -->
-            <div class="max-w-xl w-full space-y-8 text-left intro">
-                <h1
-                    class="text-5xl md:text-6xl font-bold tracking-wide text-violet-200"
-                    style="font-family: &quot;Playfair Display&quot;, serif"
-                >
-                    Zoltán Temesvári
-                </h1>
-                <p
-                    class="text-lg font-semibold tracking-wide text-violet-200"
-                    style="font-family: &quot;Playfair Display&quot;, serif"
-                >
-                    Computer Technologist | Classical Musician | Potter |
-                    (Closet) Philosopher
-                </p>
-                <p
-                    class="text-lg font-normal tracking-wide text-violet-200"
-                    style="font-family: &quot;Playfair Display&quot;, serif"
-                >
-                    Jack of Many Trades, Master of (Probably) None
-                </p>
-            </div>
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:1.125rem;
+    line-height:1.55;
+    font-optical-sizing:auto;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; }
+  img{ display:block; max-width:100%; height:auto; }
+  ::selection{ background:var(--accent); color:var(--paper); }
 
-            <!-- Decorative Photo -->
-            <div
-                class="w-[20rem] h-[20rem] md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem]"
-            >
-                <img
-                    src="assets/me.png"
-                    alt="Decorative Photo"
-                    class="w-full h-full object-cover fade-mask shadow-2xl rounded-xl"
-                />
-            </div>
+  .wrap{ max-width:76rem; margin:0 auto; padding:0 var(--gutter); }
 
-            <!-- Main Content -->
-            <div class="max-w-xl w-full space-y-8 text-left">
-                 <div>
-                    <h1
-                        onclick="toggleSection('Musick')"
-                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
-                    >
-                        Coming soon
-                    </h1>
-                    <div id="philosophy" class="mt-4 hidden space-y-2">
-                        <ul class="list-disc list-inside text-lg text-gray-200">
-                            <li>
-                                Stay tuned.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- future menu
-                <div>
-                    <h1
-                        onclick="toggleSection('philosophy')"
-                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text section-mobile-head"
-                    >
-                        Philosophy
-                    </h1>
-                    <div id="philosophy" class="mt-4 hidden space-y-2">
-                        <ul class="list-disc list-inside text-lg text-gray-200">
-                            <li>
-                                I am a Hungarian literary translator working to
-                                bring Shakespeare’s plays closer to today’s
-                                readers and theatergoers. My approach blends
-                                fresh, contemporary Hungarian in dialogues with
-                                newly crafted rhymes for soliloquies—ensuring
-                                clarity, emotional resonance, and poetic flair
-                                for a younger audience. While Hungary has a
-                                proud tradition of Shakespeare translation—from
-                                János Arany to modern classics—these often use
-                                historic language that can feel distant and
-                                obscure to newer generations. My goal is to make
-                                these timeless works accessible, vivid, and
-                                moving for the 21st century. My translation of
-                                Macbeth is available at macbeth.hu, and I’m
-                                currently working on Hamlet.
-                            </li>
-                            <li>
-                                <a
-                                    href="https://example.com/philosophy2"
-                                    class="block hover:underline sublink"
-                                    >Subsite 2</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+  .mono{
+    font-family:var(--mono);
+    font-size:.75rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
 
-                <div>
-                    <h1
-                        onclick="toggleSection('Musick')"
-                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
-                    >
-                        Art
-                    </h1>
-                    <div id="musick" class="mt-4 hidden space-y-2">
-                        <a
-                            href="https://example.com/husbandry1"
-                            class="block text-lg hover:underline sublink"
-                            >Subsite 1</a
-                        >
-                        <a
-                            href="https://example.com/husbandry2"
-                            class="block text-lg hover:underline sublink"
-                            >Subsite 2</a
-                        >
-                    </div>
-                </div>
+  /* ── Top bar ───────────────────────────── */
+  .top{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:1.5rem; padding-bottom:1.5rem;
+  }
+  .top a{ text-decoration:none; transition:color .2s; }
+  .top a:hover, .top a:focus-visible{ color:var(--accent); }
+  .top nav{ display:flex; gap:1.75rem; }
+  .brand{ color:var(--ink); }
+  .lang{ display:inline-flex; gap:.4rem; align-items:center; }
+  .lang button{
+    font:inherit; letter-spacing:inherit; color:inherit;
+    background:none; border:0; padding:0; cursor:pointer;
+    border-bottom:1px solid transparent; transition:color .2s;
+  }
+  .lang button:hover{ color:var(--accent); }
+  .lang button[aria-pressed="true"]{ color:var(--ink); border-bottom-color:var(--accent); }
 
-                <div>
-                    <h1
-                        onclick="toggleSection('merriment')"
-                        class="text-4xl md:text-5xl cursor-pointer transition-all duration-300 hover:text-gray-200 section-text"
-                    >
-                        Craft
-                    </h1>
-                    <div id="merriment" class="mt-4 hidden space-y-2">
-                        <a
-                            href="https://example.com/merriment1"
-                            class="block text-lg hover:underline sublink"
-                            >Subsite 1</a
-                        >
-                        <a
-                            href="https://example.com/merriment2"
-                            class="block text-lg hover:underline sublink"
-                            >Subsite 2</a
-                        >
-                    </div>
-                </div>
-                -->
-            </div>
-        </div>
+  /* ── Hero ──────────────────────────────── */
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:end;
+    gap:clamp(1.5rem, 5vw, 5rem);
+    padding-top:clamp(2rem, 8vh, 6rem);
+    padding-bottom:clamp(3rem, 9vh, 6.5rem);
+  }
+  .hello{ display:block; margin-bottom:1.25rem; }
+  h1{
+    margin:0;
+    font-weight:340;
+    font-size:clamp(3.4rem, 12.5vw, 10rem);
+    line-height:.9;
+    letter-spacing:-.035em;
+    font-variation-settings:"opsz" 144;
+  }
+  h1 em{ font-style:italic; font-weight:300; color:var(--accent); }
+  .tagline{
+    margin:clamp(1.5rem, 4vh, 2.5rem) 0 0;
+    max-width:26ch;
+    font-size:clamp(1.25rem, 2.4vw, 1.75rem);
+    font-style:italic;
+    font-weight:300;
+    line-height:1.3;
+    color:var(--muted);
+  }
+  .tagline span{ color:var(--ink); }
 
-        <script>
-            function toggleSection(sectionId) {
-                const sections = ["philosophy", "musick", "merriment"];
-                sections.forEach((id) => {
-                    const el = document.getElementById(id);
-                    if (id === sectionId) {
-                        el.classList.toggle("hidden");
-                    } else {
-                        el.classList.add("hidden");
-                    }
-                });
-            }
-        </script>
-    </body>
+  .portrait{
+    position:relative;
+    width:clamp(11rem, 26vw, 20rem);
+    margin:0;
+  }
+  .portrait img{
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    object-position:50% 30%;
+    border-radius:999px 999px 6px 6px;   /* an arch — or a kiln door */
+  }
+  .portrait::after{
+    content:"";
+    position:absolute; inset:0;
+    border:1px solid var(--ink);
+    border-radius:999px 999px 6px 6px;
+    transform:translate(.75rem, .75rem);
+    opacity:.35;
+    pointer-events:none;
+  }
+
+  /* ── Sections ──────────────────────────── */
+  section{ border-top:1px solid var(--ink); padding:1.25rem 0 clamp(3rem, 8vh, 5.5rem); }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:clamp(1rem, 3vh, 2rem);
+  }
+
+  /* Trades index */
+  .trades{ list-style:none; margin:0; padding:0; }
+  .trades li{
+    display:grid;
+    grid-template-columns:3.5rem 2.75rem minmax(0,1fr) auto;
+    align-items:center;
+    column-gap:clamp(.5rem, 2vw, 1.5rem);
+    padding:clamp(.9rem, 2.2vw, 1.6rem) 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .trades li:last-child{ border-bottom:0; }
+  .trades svg{
+    width:2.25rem; height:2.25rem;
+    fill:none; stroke:var(--teal); stroke-width:1.5;
+    stroke-linecap:round; stroke-linejoin:round;
+    transition:stroke .3s, transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .trades h2{
+    margin:0;
+    font-weight:360;
+    font-size:clamp(1.6rem, 5vw, 3.5rem);
+    line-height:1.05;
+    letter-spacing:-.02em;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), color .3s;
+  }
+  .trades h2 i{ font-weight:300; color:var(--muted); }
+  .trades li:hover h2{ transform:translateX(.5rem); font-style:italic; }
+  .trades li:hover svg{ stroke:var(--accent); transform:rotate(-8deg) scale(1.08); }
+  .status{ white-space:nowrap; }
+  .status::before{
+    content:""; display:inline-block; width:.45rem; height:.45rem;
+    margin-right:.6rem; border-radius:50%;
+    border:1px solid var(--muted); vertical-align:.05em;
+  }
+
+  /* Writing */
+  .essay{
+    display:grid;
+    grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:clamp(1.25rem, 4vw, 3.5rem);
+    align-items:center;
+    text-decoration:none;
+  }
+  .essay figure{
+    margin:0; overflow:hidden; border-radius:6px;
+    background:#fff; border:1px solid var(--rule);
+  }
+  .essay img{
+    width:100%; aspect-ratio:16/10; object-fit:cover;
+    transition:transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .essay:hover img, .essay:focus-visible img{ transform:scale(1.04); }
+  .essay h3{
+    margin:.75rem 0 .5rem;
+    font-weight:380;
+    font-size:clamp(1.9rem, 4.6vw, 3.25rem);
+    line-height:1.05;
+    letter-spacing:-.02em;
+  }
+  .essay p{ margin:0; max-width:34ch; font-style:italic; font-weight:300; color:var(--muted); font-size:clamp(1.05rem,1.8vw,1.3rem); line-height:1.4; }
+  .more{ display:inline-block; margin-top:1.5rem; color:var(--accent); }
+  .more::after{ content:"→"; display:inline-block; margin-left:.6em; transition:transform .3s; }
+  .essay:hover .more::after, .essay:focus-visible .more::after{ transform:translateX(.35rem); }
+  .essay:hover h3, .essay:focus-visible h3{ color:var(--accent); }
+  .essay h3{ transition:color .3s; }
+
+  /* Footer */
+  footer{
+    border-top:1px solid var(--ink);
+    padding:1.25rem 0 2.5rem;
+    display:flex; flex-wrap:wrap; gap:.5rem 2rem; justify-content:space-between;
+  }
+
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:2px; }
+
+  /* ── Entrance ──────────────────────────── */
+  @media (prefers-reduced-motion: no-preference){
+    .rise{ opacity:0; transform:translateY(1.25rem); animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards; animation-delay:calc(var(--i, 0) * 110ms); }
+    @keyframes rise{ to{ opacity:1; transform:none; } }
+  }
+
+  /* ── Small screens ─────────────────────── */
+  @media (max-width: 44rem){
+    .top nav{ gap:1rem; }
+    .brand{ display:none; }
+    .top{ justify-content:flex-end; }
+    .hero{ grid-template-columns:1fr; align-items:start; }
+    .portrait{ order:-1; width:9.5rem; }
+    .portrait::after{ transform:translate(.5rem,.5rem); }
+    .trades li{ grid-template-columns:2rem minmax(0,1fr); row-gap:.15rem; }
+    .trades .num{ display:none; }
+    .trades svg{ width:1.6rem; height:1.6rem; }
+    .trades .status{ grid-column:2; }
+    .essay{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap top mono">
+  <a class="brand" href="/">temesvari.me</a>
+  <nav aria-label="Sections">
+    <a href="#trades" data-hu="Mesterségek">Trades</a>
+    <a href="#writing" data-hu="Írások">Writing</a>
+    <span class="lang" role="group" aria-label="Language / Nyelv">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="hu" aria-pressed="false">HU</button>
+    </span>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div>
+      <span class="mono hello rise" data-hu="Üdv, a nevem">Hi, I am</span>
+      <h1 class="rise" style="--i:1" data-hu="Temesvári&lt;br /&gt;&lt;em&gt;Zoltán&lt;/em&gt;">Zoltán<br /><em>Temesvári</em></h1>
+      <p class="tagline rise" style="--i:2" data-hu="&lt;span&gt;Ezermester,&lt;/span&gt; aki (valószínűleg) egyiknek sem mestere."><span>Jack of many trades,</span> master of (probably) none.</p>
+    </div>
+    <figure class="portrait rise" style="--i:3">
+      <img src="assets/me-640.jpg" width="640" height="640" alt="Illustrated portrait of Zoltán Temesvári" />
+    </figure>
+  </div>
+
+  <section id="trades">
+    <div class="section-head mono"><span data-hu="A mesterségek">The trades</span><span>01 — 04</span></div>
+    <ol class="trades">
+      <li>
+        <span class="mono num">01</span>
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 12c5-5 10 5 15 0s10 5 15 0M3 19c5-5 10 5 15 0s10 5 15 0M3 26c5-5 10 5 15 0s10 5 15 0"/></svg>
+        <h2 data-hu="Informatikus">Computer Technologist</h2>
+        <span class="mono status" data-hu="Készül">In preparation</span>
+      </li>
+      <li>
+        <span class="mono num">02</span>
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M13 27V8l15-3v19"/><ellipse cx="9.5" cy="27" rx="3.5" ry="2.8"/><ellipse cx="24.5" cy="24" rx="3.5" ry="2.8"/></svg>
+        <h2 data-hu="Klasszikus zenész">Classical Musician</h2>
+        <span class="mono status" data-hu="Készül">In preparation</span>
+      </li>
+      <li>
+        <span class="mono num">03</span>
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M13 5h10M14 5c0 5-7 8-7 15 0 6 4 11 11 11s11-5 11-11c0-7-7-10-7-15"/><path d="M8 17h20"/></svg>
+        <h2 data-hu="Fazekas">Potter</h2>
+        <span class="mono status" data-hu="Készül">In preparation</span>
+      </li>
+      <li>
+        <span class="mono num">04</span>
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 5 32 30H4Z"/><path d="M18 5v16M4 30l14-9 14 9"/></svg>
+        <h2 data-hu="&lt;i&gt;(Titkos)&lt;/i&gt; filozófus"><i>(Closet)</i> Philosopher</h2>
+        <span class="mono status" data-hu="Készül">In preparation</span>
+      </li>
+    </ol>
+  </section>
+
+  <section id="writing">
+    <div class="section-head mono"><span data-hu="Írások">Writing</span><span data-hu="Legfrissebb">Latest</span></div>
+    <a class="essay" href="/a_fuggoseg_paradoxona/" hreflang="hu">
+      <figure>
+        <img src="assets/fuggoseg_paradoxona.png" width="1024" height="618" loading="lazy" alt="" />
+      </figure>
+      <div>
+        <span class="mono" data-hu="Esszé · &lt;time datetime=&quot;2025-12-19&quot;&gt;2025. december 19.&lt;/time&gt;">Essay · In Hungarian · <time datetime="2025-12-19">19 December 2025</time></span>
+        <h3 lang="hu">A függőség paradoxona</h3>
+        <p lang="hu">Avagy miért stabilizálhatja a gazdasági hanyatlás az Orbán-rendszert?</p>
+        <span class="mono more" data-hu="Elolvasom">Read the essay</span>
+      </div>
+    </a>
+  </section>
+
+</main>
+
+<div class="wrap">
+  <footer class="mono">
+    <span>© <span id="year">2026</span> <span data-hu="Temesvári Zoltán">Zoltán Temesvári</span></span>
+    <span data-hu="Minden jog fenntartva">All rights reserved</span>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // EN / HU switch: English lives in the markup, Hungarian in data-hu.
+  const els = [...document.querySelectorAll('[data-hu]')];
+  els.forEach(el => { el.dataset.en = el.innerHTML; });
+  const buttons = [...document.querySelectorAll('[data-lang]')];
+  function setLang(lang){
+    els.forEach(el => { el.innerHTML = el.dataset[lang]; });
+    document.documentElement.lang = lang;
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  }
+  buttons.forEach(b => b.addEventListener('click', () => {
+    setLang(b.dataset.lang);
+    try { localStorage.setItem('lang', b.dataset.lang); } catch (e) {}
+  }));
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  const initial = saved || ((navigator.language || '').toLowerCase().startsWith('hu') ? 'hu' : 'en');
+  if (initial === 'hu') setLang('hu');
+</script>
+</body>
 </html>

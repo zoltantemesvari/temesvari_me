@@ -228,13 +228,40 @@
     text-wrap:balance; transition:color .3s;
   }
   .post-sub{ display:block; margin-top:.3rem; font-style:italic; font-weight:300; color:var(--muted); line-height:1.35; }
-  .paid{ display:inline-block; margin-top:.5rem; font-size:.65rem; padding:.15rem .5rem; border:1px solid var(--rule); border-radius:99px; }
   .go{ color:var(--muted); text-align:right; transition:color .3s, transform .3s; }
   .posts a:hover .post-title, .posts a:focus-visible .post-title{ color:var(--accent); }
   .posts a:hover .post-text{ transform:translateX(.4rem); }
   .posts a:hover .go, .posts a:focus-visible .go{ color:var(--accent); transform:translate(.15rem,-.15rem); }
   .more.all{ text-decoration:none; margin-top:2rem; }
   .more.all:hover::after{ transform:translateX(.35rem); }
+
+  /* Elsewhere */
+  .links{ list-style:none; margin:0; padding:0; }
+  .links li{ border-bottom:1px solid var(--rule); }
+  .links li:last-child{ border-bottom:0; }
+  .links a{
+    display:grid;
+    grid-template-columns:2.75rem minmax(0,1fr) auto 1.5rem;
+    column-gap:clamp(.75rem, 2vw, 1.5rem);
+    align-items:center;
+    padding:clamp(.8rem, 1.8vw, 1.2rem) 0;
+    text-decoration:none;
+  }
+  .links svg{
+    width:1.75rem; height:1.75rem;
+    fill:none; stroke:var(--teal); stroke-width:1.5;
+    stroke-linecap:round; stroke-linejoin:round;
+    transition:stroke .3s, transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .links a:hover svg, .links a:focus-visible svg{ stroke:var(--accent); transform:rotate(-8deg) scale(1.08); }
+  .link-name{
+    font-size:clamp(1.6rem, 4.2vw, 2.75rem);
+    font-weight:360; line-height:1.1; letter-spacing:-.02em;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), color .3s;
+  }
+  .links a:hover .link-name, .links a:focus-visible .link-name{ color:var(--accent); font-style:italic; transform:translateX(.5rem); }
+  .links a:hover .go, .links a:focus-visible .go{ color:var(--accent); transform:translate(.15rem,-.15rem); }
+  #elsewhere{ padding-bottom:clamp(2rem, 5vh, 3.5rem); }
 
   /* Footer */
   footer{
@@ -266,6 +293,11 @@
     .essay{ grid-template-columns:1fr; }
     .posts a{ grid-template-columns:minmax(0,1fr) 1.25rem; }
     .posts time{ grid-column:1 / -1; margin-bottom:.35rem; }
+    .links a{ grid-template-columns:2rem minmax(0,1fr) 1.25rem; }
+    .links svg{ width:1.5rem; height:1.5rem; grid-row:1 / span 2; }
+    .links .mono{ grid-column:2; grid-row:2; margin-top:.2rem; }
+    .links .go{ grid-column:3; grid-row:1; }
+    .top nav{ gap:.85rem; }
   }
 </style>
 </head>
@@ -276,6 +308,7 @@
   <nav aria-label="Sections">
     <a href="#trades" data-hu="Mesterségek">Trades</a>
     <a href="#writing" data-hu="Írások">Writing</a>
+    <a href="#elsewhere" data-hu="Máshol">Elsewhere</a>
     <span class="lang" role="group" aria-label="Language / Nyelv">
       <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="hu" aria-pressed="false">HU</button>
     </span>
@@ -348,7 +381,6 @@
           <span class="post-text">
             <span class="post-title">Haiku is Life</span>
             <span class="post-sub">Haikus and a Poem from Imaginary Poets</span>
-            <span class="mono paid" data-hu="Előfizetőknek">Subscribers only</span>
           </span>
           <span class="go" aria-hidden="true">↗</span>
         </a>
@@ -504,6 +536,52 @@
       </li>
     </ol>
     <a class="mono more all" href="https://zoltantemesvari.substack.com/" rel="noopener" data-hu="Minden írás a Substackon">All essays on Substack</a>
+  </section>
+
+  <section id="elsewhere">
+    <div class="section-head mono"><span data-hu="Máshol">Elsewhere</span><span data-hu="Kapcsolat">Find me</span></div>
+    <ul class="links">
+      <li>
+        <a href="https://www.linkedin.com/in/zoltantemesvari/" rel="me noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="link-name">LinkedIn</span>
+          <span class="mono" data-hu="Munka">Work</span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://zoltantemesvari.substack.com/" rel="me noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18M3 8.5h18M3 13h18v8l-9-5-9 5z"/></svg>
+          <span class="link-name">Substack</span>
+          <span class="mono" data-hu="Esszék">Essays</span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/temyzoly/" rel="me noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+          <span class="link-name">Instagram</span>
+          <span class="mono" data-hu="Képek">Pictures</span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/zoltantemesvari" rel="me noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span class="link-name">GitHub</span>
+          <span class="mono" data-hu="Kód">Code</span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://macbeth.hu/" rel="me noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><path d="M16 8 2 22M17.5 15H9"/></svg>
+          <span class="link-name">Macbeth</span>
+          <span class="mono" data-hu="Műfordítás · macbeth.hu">Literary translation · macbeth.hu</span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
+      </li>
+    </ul>
   </section>
 
 </main>
